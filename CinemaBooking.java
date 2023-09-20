@@ -52,7 +52,7 @@ public class CinemaBooking {
             }
             System.out.println();
 
-            System.out.print("Which seat would you like to book? ");
+            System.out.print("Which seat number would you like to book? ");
             Seats = input.nextInt();
 
             while (Seats < 0 || Seats > 29) {
