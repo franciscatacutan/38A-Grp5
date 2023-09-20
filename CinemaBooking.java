@@ -9,13 +9,13 @@ public class CinemaBooking {
         int[] SeatNo = new int[30];
         int Seats;
         int YesOrNo = 1;
-        String CustomerName;
+        String Customer;
 
         while (YesOrNo == 1) {
             System.out.print("Welcome to Crazy Cinema!\nWhat is your name?\n");
-            CustomerName = input.nextLine();
+            Customer = input.nextLine();
 
-            System.out.printf("Welcome %s! Please have a look at the seating plan.\n\n", CustomerName);
+            System.out.printf("Welcome %s! Please have a look at the seating plan.\n\n", Customer);
 
             for (int i = 1; i <= 34; i++) {
                 System.out.print("*");
