@@ -41,10 +41,9 @@ public class CinemaBooking {
             while (true) {
                 System.out.print("Enter number of tickets (max 5 tickets): "); // enters the number of tickets the person wants to buy
                 numOfTickets = scanner.nextInt();
-                scanner.nextLine(); // consume newline left-over
 
                 if (numOfTickets <= 5) {
-                    for (int i = 1; i < numOfTickets; i++){
+                    for (int j = 1; j < numOfTickets; j++){
                         int seatNumber;
                         while (true) {
                             System.out.print("Enter seat number: ");
