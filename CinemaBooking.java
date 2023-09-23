@@ -37,6 +37,37 @@ public class CinemaBooking {
             System.out.print("Enter movie: ");
             String movie = scanner.nextLine();
 
+            int numOfTickets;
+            while (true) {
+                System.out.print("Enter number of tickets (max 5 tickets): "); // enters the number of tickets the person wants to buy
+                numOfTickets = scanner.nextInt();
+                scanner.nextLine(); // consume newline left-over
+
+                if (numOfTickets <= 5) {
+                    for (int i = 1; i < numOfTickets; i++){
+                        int seatNumber;
+                        while (true) {
+                            System.out.print("Enter seat number: ");
+                            seatNumber = scanner.nextInt();
+                            scanner.nextLine(); // consume newline left-over
+
+                            if (availableSeats.contains(seatNumber)) {
+                                availableSeats.remove(Integer.valueOf(seatNumber)); // remove this seat from available seats
+                            break;
+                            } else {
+                                System.out.println("This seat is already booked. Please enter a different seat number.");
+                            }
+                        }
+
+                    people.add(new Person(name, movie, seatNumber));
+                    }
+                break;
+                } else {
+                    System.out.println("Invalid number of tickets. Can only purchase a maximum of 5 tickets!");
+                }
+            }
+
+
             int seatNumber;
             while (true) {
                 System.out.print("Enter seat number: ");
