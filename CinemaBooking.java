@@ -1,42 +1,32 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 class Person {
     String name;
     String movie;
-    ArrayList<Integer> seatNumbers;
+    int seatNumber;
 
-    Person(String name, String movie, ArrayList<Integer> seatNumbers) {
+    Person(String name, String movie, int seatNumber) {
         this.name = name;
         this.movie = movie;
-        this.seatNumbers = seatNumbers;
+        this.seatNumber = seatNumber;
     }
 
     void display() {
-        System.out.println("Name: " + name + ", Movie: " + movie + ", Seat Numbers: " + seatNumbers);
+        System.out.println("Name: " + name + ", Movie: " + movie + ", Seat Number: " + seatNumber);
     }
 }
 
 public class CinemaBooking {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Person> people = new ArrayList<>();
-        Map<String, ArrayList<Integer>> availableSeats = new HashMap<>();
+        ArrayList<Person> people = new ArrayList<Person>(); // Array to store bookings
+        ArrayList<Integer> availableSeats = new ArrayList<Integer>();
 
-        // Initialize available seats for each movie
-        availableSeats.put("Movie 1", new ArrayList<>());
-        availableSeats.put("Movie 2", new ArrayList<>());
-        availableSeats.put("Movie 3", new ArrayList<>());
-
+        // Initialize available seats
         for (int i = 1; i <= 20; i++) {
-            availableSeats.get("Movie 1").add(i);
-            availableSeats.get("Movie 2").add(i);
-            availableSeats.get("Movie 3").add(i);
+            availableSeats.add(i);
         }
-
-        String[] movies = {"Movie 1", "Movie 2", "Movie 3"};
 
         while (true) {
             System.out.println("Enter details for booking:");
@@ -44,54 +34,57 @@ public class CinemaBooking {
             System.out.print("Enter name: ");
             String name = scanner.nextLine();
 
-            // Choose a movie
-            System.out.println("Available movies:");
-            for (int i = 0; i < movies.length; i++) {
-                System.out.println((i + 1) + ". " + movies[i]);
-            }
-            int movieChoice;
+            System.out.print("Enter movie: ");
+            String movie = scanner.nextLine();
+
+            int numOfTickets;
             while (true) {
-                System.out.print("Enter movie choice (1-" + movies.length + "): ");
-                movieChoice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline left-over
+                System.out.print("Enter number of tickets (max 5 tickets): "); // enters the number of tickets the person wants to buy
+                numOfTickets = scanner.nextInt();
+                scanner.nextLine(); // consume newline left-over
 
-                if (movieChoice >= 1 && movieChoice <= movies.length) {
-                    String selectedMovie = movies[movieChoice - 1];
-                    ArrayList<Integer> remainingSeats = availableSeats.get(selectedMovie);
+                if (numOfTickets <= 5) {
+                    for (int i = 1; i < numOfTickets; i++){
+                        int seatNumber;
+                        while (true) {
+                            System.out.print("Enter seat number: ");
+                            seatNumber = scanner.nextInt();
+                            scanner.nextLine(); // consume newline left-over
 
-                    if (!remainingSeats.isEmpty()) {
-                        System.out.println("Available seats for " + selectedMovie + ": " + remainingSeats);
-                        System.out.print("Enter seat numbers (comma-separated, e.g., 1,5,10): ");
-                        String seatInput = scanner.nextLine();
-                        String[] seatStrings = seatInput.split(",");
-                        ArrayList<Integer> selectedSeats = new ArrayList<>();
-
-                        for (String seatStr : seatStrings) {
-                            int seatNumber = Integer.parseInt(seatStr.trim());
-                            if (remainingSeats.contains(seatNumber)) {
-                                selectedSeats.add(seatNumber);
-                            } else {
-                                System.out.println("Seat " + seatNumber + " is not available. Please choose from available seats.");
-                            }
-                        }
-
-                        if (!selectedSeats.isEmpty()) {
-                            for (int seatNumber : selectedSeats) {
-                                remainingSeats.remove(Integer.valueOf(seatNumber));
-                            }
-                            availableSeats.put(selectedMovie, remainingSeats);
-                            people.add(new Person(name, selectedMovie, selectedSeats));
+                            if (availableSeats.contains(seatNumber)) {
+                                availableSeats.remove(Integer.valueOf(seatNumber)); // remove this seat from available seats
                             break;
+                            } else {
+                                System.out.println("This seat is already booked. Please enter a different seat number.");
+                            }
                         }
-                    } else {
-                        System.out.println("All seats for " + selectedMovie + " are occupied. Please choose another movie.");
+
+                    people.add(new Person(name, movie, seatNumber));
                     }
+                break;
                 } else {
-                    System.out.println("Invalid movie choice. Please enter a valid choice.");
+                    System.out.println("Invalid number of tickets. Can only purchase a maximum of 5 tickets!");
                 }
             }
 
-            System.out.print("Do you want to book another ticket? (yes/no): ");
+
+            int seatNumber;
+            while (true) {
+                System.out.print("Enter seat number: ");
+                seatNumber = scanner.nextInt();
+                scanner.nextLine(); // consume newline left-over
+
+                if (availableSeats.contains(seatNumber)) {
+                    availableSeats.remove(Integer.valueOf(seatNumber)); // remove this seat from available seats
+                    break;
+                } else {
+                    System.out.println("This seat is already booked. Please enter a different seat number.");
+                }
+            }
+
+            people.add(new Person(name, movie, seatNumber));
+
+            System.out.print("Do you want to book another? (yes/no): ");
             String response = scanner.nextLine();
             if (!response.equalsIgnoreCase("yes")) {
                 break;
@@ -99,7 +92,6 @@ public class CinemaBooking {
         }
 
         // Display all bookings
-        System.out.println("\nAll Bookings:");
         for (Person person : people) {
             person.display();
         }
