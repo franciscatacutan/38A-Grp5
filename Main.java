@@ -1,14 +1,18 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Payment payment = new Payment();
-        ArrayList<Person> people = new ArrayList<Person>(); // Array to store bookings
+
+        // Array to store bookings
+        ArrayList<Person> people = new ArrayList<Person>();
         ArrayList<Integer> availableSeats = new ArrayList<Integer>();
+
         int totalTicket = 0;
+
         // Initialize available seats
         for (int i = 1; i <= 20; i++) {
             availableSeats.add(i);
@@ -25,9 +29,8 @@ public class Main {
 
             int numOfTickets;
             while (true) {
-                System.out.print("Enter number of tickets (max 5 tickets): "); // enters the number of tickets the
-                                                                               // person wants to buy
-                // numOfTickets = scanner.nextInt();
+                // enters the number of tickets the person wants to buy
+                System.out.print("Enter number of tickets (max 5 tickets): ");
                 numOfTickets = Integer.parseInt(scanner.nextLine());
 
                 if (numOfTickets <= 5) {
@@ -38,11 +41,12 @@ public class Main {
                         while (true) {
                             System.out.print("Enter seat number: ");
                             seatNumber = scanner.nextInt();
-                            scanner.nextLine(); // consume newline left-over
+                            // consume newline left-over
+                            scanner.nextLine();
 
                             if (availableSeats.contains(seatNumber)) {
-                                availableSeats.remove(Integer.valueOf(seatNumber)); // remove this seat from available
-                                                                                    // seats
+                                // remove this seat from available seats
+                                availableSeats.remove(Integer.valueOf(seatNumber));
                                 break;
                             } else {
                                 System.out
@@ -62,10 +66,12 @@ public class Main {
             while (true) {
                 System.out.print("Enter seat number: ");
                 seatNumber = scanner.nextInt();
-                scanner.nextLine(); // consume newline left-over
+                // consume newline left-over
+                scanner.nextLine();
 
                 if (availableSeats.contains(seatNumber)) {
-                    availableSeats.remove(Integer.valueOf(seatNumber)); // remove this seat from available seats
+                    // remove this seat from available seats
+                    availableSeats.remove(Integer.valueOf(seatNumber));
                     break;
                 } else {
                     System.out.println("This seat is already booked. Please enter a different seat number.");
@@ -78,19 +84,46 @@ public class Main {
             String response = scanner.nextLine();
 
             if (!response.equalsIgnoreCase("yes")) {
+                System.out.println("\nProceeding with payment...");
 
                 // Display all bookings
                 for (Person person : people) {
                     person.display();
                 }
 
-                System.out.println("Total Amount is " + payment.computeAmount(totalTicket));
+                System.out.println("Total Amount is " + payment.computeAmount(totalTicket) + "\n");
 
+                System.out.print("Enter payment method <cash / digital>: ");
+                String paymentType = scanner.nextLine();
+
+                if (paymentType.equalsIgnoreCase("CASH")) {
+                    System.out.print("Please pay exact amount: ");
+                    int paymentCash = scanner.nextInt();
+
+                    if (paymentCash < payment.computeAmount(totalTicket)) {
+                        System.out.println("Please pay exact amount only.");
+                    } else {
+                        System.out.println("You paid in " + payment.paymentMethod(paymentType) + " with an amount of P"
+                                + paymentCash + ".");
+                    }
+                    break;
+                } else {
+                    System.out.print("Enter desired amount: ");
+                    int paymentDigital = scanner.nextInt();
+
+                    if (paymentDigital > payment.computeAmount(totalTicket)) {
+                        int change = (int) (paymentDigital - payment.computeAmount(totalTicket));
+                        System.out.println("You paid in " + payment.paymentMethod(paymentType) + " with an amount of P"
+                                + paymentDigital + ".");
+                        System.out.println("Your change is: P" + change + ".");
+                    } else {
+                        System.out.println("Insufficient payment. Please try again.");
+                    }
+                }
+                System.out.println("\nThank you. Enjoy the movie~");
                 break;
             }
-
         }
-
         scanner.close();
     }
 }
