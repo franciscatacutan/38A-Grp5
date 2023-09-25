@@ -1,6 +1,6 @@
 public class Payment {
 
-    String paymentMethod;
+    enum paymentMethod {cash, gcash};
     int amount;
 
     public double computeAmount(int numOfTicket) {
@@ -12,4 +12,11 @@ public class Payment {
 
     }
 
+    public String paymentMethod(String paymentMethod) {
+        if (paymentMethod == "cash") {
+            return "cash";
+        } else {
+            return "gcash";
+        }
+    }
 }
