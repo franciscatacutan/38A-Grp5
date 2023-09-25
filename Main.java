@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -7,7 +8,7 @@ public class Main {
         Payment payment = new Payment();
         ArrayList<Person> people = new ArrayList<Person>(); // Array to store bookings
         ArrayList<Integer> availableSeats = new ArrayList<Integer>();
-
+        int totalTicket = 0;
         // Initialize available seats
         for (int i = 1; i <= 20; i++) {
             availableSeats.add(i);
@@ -30,6 +31,8 @@ public class Main {
                 numOfTickets = Integer.parseInt(scanner.nextLine());
 
                 if (numOfTickets <= 5) {
+                    totalTicket += numOfTickets;
+
                     for (int j = 1; j < numOfTickets; j++) {
                         int seatNumber;
                         while (true) {
@@ -81,7 +84,7 @@ public class Main {
                     person.display();
                 }
 
-                System.out.println("Total Amount is " + payment.computeAmount(numOfTickets));
+                System.out.println("Total Amount is " + payment.computeAmount(totalTicket));
 
                 break;
             }
