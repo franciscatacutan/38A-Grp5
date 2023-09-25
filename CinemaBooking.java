@@ -66,17 +66,6 @@ public class CinemaBooking {
                 }
             }
 
-// <<<<<<< Tabora
-// =======
-//             System.out.print("Which seat number would you like to book? ");
-//             Seats = input.nextInt();
-
-//             while (Seats < 0 || Seats > 29) {
-//                 System.out.println("Only 0 - 29 seats are allowed to book. Please try again: ");
-//                 Seats = input.nextInt();
-//             }
-// >>>>>>> main
-
             int seatNumber;
             while (true) {
                 System.out.print("Enter seat number: ");
@@ -93,7 +82,7 @@ public class CinemaBooking {
 
             people.add(new Person(name, movie, seatNumber));
 
-            System.out.print("Do you want to book another? (yes/no): ");
+            System.out.print("Do you want to book another Movie? (yes/no): ");
             String response = scanner.nextLine();
             if (!response.equalsIgnoreCase("yes")) {
                 break;
