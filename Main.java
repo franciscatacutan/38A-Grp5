@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    private static final int PaymentType = 0;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -85,40 +84,43 @@ public class Main {
             String response = scanner.nextLine();
 
             if (!response.equalsIgnoreCase("yes")) {
-                System.out.print("Proceeding with payment...");
+                System.out.println("\nProceeding with payment...");
 
                 // Display all bookings
                 for (Person person : people) {
                     person.display();
                 }
 
-                System.out.println("Total Amount is " + payment.computeAmount(totalTicket));
+                System.out.println("Total Amount is " + payment.computeAmount(totalTicket) + "\n");
 
                 System.out.print("Enter payment method <cash / digital>: ");
                 String paymentType = scanner.nextLine();
 
-                if (payment.paymentMethod(paymentType) == "cash") {
-                    System.out.print("Please pay/enter exact amount: ");
+                if (paymentType.equalsIgnoreCase("CASH")) {
+                    System.out.print("Please pay exact amount: ");
                     int paymentCash = scanner.nextInt();
 
-                    while (paymentCash < payment.computeAmount(totalTicket)) {
-                        if (paymentCash < payment.computeAmount(totalTicket)) {
-                            System.out.println("Invalid amount.");
-                        } else {
-                            System.out.println("You paid: " + paymentCash);
-                        }
-                        break;
+                    if (paymentCash < payment.computeAmount(totalTicket)) {
+                        System.out.println("Please pay exact amount only.");
+                    } else {
+                        System.out.println("You paid in " + payment.paymentMethod(paymentType) + " with an amount of P"
+                                + paymentCash + ".");
                     }
+                    break;
                 } else {
                     System.out.print("Enter desired amount: ");
                     int paymentDigital = scanner.nextInt();
-                    
+
                     if (paymentDigital > payment.computeAmount(totalTicket)) {
-                        paymentDigital -= payment.computeAmount(totalTicket);
-                        int change = paymentDigital;
-                        System.out.println("Your change is: " + change);
+                        int change = (int) (paymentDigital - payment.computeAmount(totalTicket));
+                        System.out.println("You paid in " + payment.paymentMethod(paymentType) + " with an amount of P"
+                                + paymentDigital + ".");
+                        System.out.println("Your change is: P" + change + ".");
+                    } else {
+                        System.out.println("Insufficient payment. Please try again.");
                     }
                 }
+                System.out.println("\nThank you. Enjoy the movie~");
                 break;
             }
         }
